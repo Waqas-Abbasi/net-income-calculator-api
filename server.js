@@ -5,10 +5,14 @@ const bodyParser = require('body-parser');
 const app = express();
 const cors = require('cors');
 
-app.use(cors({
-    origin: 'https://incomecalculator.netlify.com/'
-}));
+app.use(cors());
 
+//     origin: 'https://incomecalculator.netlify.com/'
+// app.use(function (req, res, next) {
+//     res.header('Access-Control-Allow-Origin', '*');
+//     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+//     next();
+// });
 
 app.use(bodyParser.json());
 
@@ -60,7 +64,7 @@ const getSalaryAfterTax = async (browser, state, salary) => {
 
 const getTaxData = async (page, state, salary) => {
 
-    await page.goto('https://salaryaftertax.com/us',  { waitUntil: 'domcontentloaded' });
+    await page.goto('https://salaryaftertax.com/us', {waitUntil: 'domcontentloaded'});
 
     await page.select('#province', state.replace('_', ' '));
     await page.select('#satSelectPeriod', 'YEARLY');
@@ -100,7 +104,7 @@ const getAverageRentByCity = async (browser, city) => {
 };
 
 const getRentData = async (page, city) => {
-    await page.goto('https://www.rentjungle.com/rentdata/', { waitUntil: 'domcontentloaded' });
+    await page.goto('https://www.rentjungle.com/rentdata/', {waitUntil: 'domcontentloaded'});
 
     await page.select('#CityCity', city);
     await page.evaluate(() => document.querySelector('#SourceTypeRentdatahomeForm').submit());
