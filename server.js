@@ -18,7 +18,7 @@ const port = process.env.PORT || 8080;
 
 const getAPIData = async (userInfo) => {
     const results = {};
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({args: ['--no-sandbox']});
 
     const apiInfo = await Promise.all([
         getSalaryAfterTax(browser, userInfo.state, userInfo.salary),
