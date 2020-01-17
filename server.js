@@ -40,7 +40,7 @@ app.post('/getdata', (req, res) => {
     });
 });
 
-app.get('/', (req, res) => res.status(404).end());
+app.get('/', (req, res) => res.status(200).end());
 
 app.listen(port, ip);
 
