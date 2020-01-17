@@ -1,5 +1,8 @@
 Backend API for Net Income Calculator
 
+Information about Taxes scrapped from: https://salaryaftertax.com/us
+
+Information about Rent scrapped from: https://www.rentjungle.com/rentdata/
 
 Tax and Rent Information about a city can be attained by making a `post` request to `/getdata`.
 
