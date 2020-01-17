@@ -12,7 +12,8 @@ app.use(cors({
 
 app.use(bodyParser.json());
 
-const port = 8080;
+const ipaddress = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
+const port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 
 
 const getAPIData = async (userInfo) => {
@@ -41,7 +42,7 @@ app.post('/getdata', (req, res) => {
 
 app.get('/', (req, res) => res.status(404).end());
 
-app.listen(port, () => console.log(`Listening on port ${port}!`));
+app.listen(port, ipaddress);
 
 const getSalaryAfterTax = async (browser, state, salary) => {
     const page = await browser.newPage();
