@@ -48,7 +48,7 @@ const getSalaryAfterTax = async (browser, state, salary) => {
     const page = await browser.newPage();
 
     const promiseResult = await Promise.race([
-        page.waitFor(5000),
+        page.waitFor(10000),
         getTaxData(page, state, salary),
     ]);
 
@@ -85,7 +85,7 @@ const getAverageRentByCity = async (browser, city) => {
         const page = await browser.newPage();
 
         const promiseResult = await Promise.race([
-            page.waitFor(5000),
+            page.waitFor(10000),
             getRentData(page, city)
         ]);
 
