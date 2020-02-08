@@ -1,4 +1,9 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-extra');
+const {performance} = require('perf_hooks');
+
+// Add stealth plugin and use defaults (all tricks to hide puppeteer usage)
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+puppeteer.use(StealthPlugin());
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -16,9 +21,11 @@ const port = process.env.PORT || 8080;
 const getAPIData = async (userInfo) => {
     const results = {};
     const browser = await puppeteer.launch({
+        headless: true,
         ignoreDefaultArgs: ['--disable-extensions'],
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
+
 
     const apiInfo = await Promise.all([
         getSalaryAfterTax(browser, userInfo.state, userInfo.salary),
@@ -46,6 +53,18 @@ app.listen(port, ip);
 
 const getSalaryAfterTax = async (browser, state, salary) => {
     const page = await browser.newPage();
+
+    //turns request interceptor on
+    await page.setRequestInterception(true);
+
+    //if the page makes a  request to a resource type of image or stylesheet then abort that request
+    page.on('request', request => {
+        if (request.resourceType() === 'image' || request.resourceType() === 'stylesheet') {
+            request.abort();
+        } else {
+            request.continue();
+        }
+    });
 
     const promiseResult = await Promise.race([
         page.waitFor(10000),
@@ -83,6 +102,18 @@ const getTaxData = async (page, state, salary) => {
 const getAverageRentByCity = async (browser, city) => {
     try {
         const page = await browser.newPage();
+
+        //turns request interceptor on
+        await page.setRequestInterception(true);
+
+        //if the page makes a  request to a resource type of image or stylesheet then abort that request
+        page.on('request', request => {
+            if (request.resourceType() === 'image' || request.resourceType() === 'stylesheet') {
+                request.abort();
+            } else {
+                request.continue();
+            }
+        });
 
         const promiseResult = await Promise.race([
             page.waitFor(10000),
