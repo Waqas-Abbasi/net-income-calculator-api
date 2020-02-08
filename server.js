@@ -1,6 +1,4 @@
 const puppeteer = require('puppeteer-extra');
-const {performance} = require('perf_hooks');
-
 // Add stealth plugin and use defaults (all tricks to hide puppeteer usage)
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 puppeteer.use(StealthPlugin());
